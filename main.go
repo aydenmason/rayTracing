@@ -33,4 +33,5 @@ func draw_line(){
 		j := i
 		rl.DrawPixel(int32(i),int32(j), rl.NewColor(255, 0, 0, 255))
 	}
+
 }
