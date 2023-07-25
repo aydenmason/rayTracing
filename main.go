@@ -22,8 +22,20 @@ for x = -Cw/2 to Cw/2 {
 */
 var sphere1 = sphere { 
 	radius = 1 
-	center = 
+	center = {255,0,0}
+	center = {0, -1, 3}
 }
+var sphere2 = sphere { 
+	radius = 1 
+	center = {0,255,0}
+	center = {-2, 0, 4}
+}
+var sphere3 = sphere { 
+	radius = 1 
+	center = {0,0,255}
+	center = {2,0,4}
+}
+var scene = [3]sphere{sphere1,sphere2,sphere3}
 func main() {
 	rl.InitWindow(1920, 1080, "raylib [core] example - basic window")
 	defer rl.CloseWindow()
@@ -48,11 +60,28 @@ func main() {
 func CanvasToViewPort(x int, y int){
 	return {x,y,2}
 }
-
+func  IntersectRaySphere(O []int, D []int, shape sphere)
 func TraceRay(O []int, D []int, t_min int, t_max int){
 	closest_t = 9999999
 	closest_sphere = nil 
+	for sphere := range scene{
+		t1,t2 = IntersectRaySphere(O, D, sphere)
+		if (t1 <= t_max && t1 >= t_min) && t1 < closest_t{
+			closest_t = t1
+			closest_sphere = sphere 
+		}
+		if (t2 <= t_max && t2 >= t_min) && t2 < closest_t{
+			closest_t = t2 
+			closest_sphere = sphere 
+		}
+	}
 
+	if closest_sphere == nil{
+		return rl.RayWhite
+	}
+
+	return closest_sphere.color
+	
 }
 
 
