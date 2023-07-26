@@ -1,13 +1,16 @@
 package main
 
-import rl "github.com/gen2brain/raylib-go/raylib"
-
+import (
+	rl "github.com/gen2brain/raylib-go/raylib"
+	"math"
+	"fmt"
+)
 var red = []uint32{255,0,0,255}
 
 type sphere struct { 
-	radius float32,
-	color []uint8,
-	center []float32
+	radius float32
+	color [3]uint8
+	center [3]float32
 }
 
 /*
@@ -20,28 +23,36 @@ for x = -Cw/2 to Cw/2 {
     }
 }
 */
-var sphere1 = sphere { 
-	radius = 1 
-	center = {255,0,0}
-	center = {0, -1, 3}
+sphere1 := sphere {
+	radius : 1,
+	color : {255,0,0}, //
+	center : {0, -1, 3}, //
 }
-var sphere2 = sphere { 
-	radius = 1 
-	center = {0,255,0}
-	center = {-2, 0, 4}
-}
-var sphere3 = sphere { 
-	radius = 1 
-	center = {0,0,255}
-	center = {2,0,4}
+
+ sphere2 := sphere {
+	radius : 1 ,
+	color : {0,255,0},//
+	center : {-2, 0, 4},//
+ }
+	
+
+sphere3 := sphere {
+	radius : 1 ,
+	color : {0,0,255},//
+	center : {2,0,4},//
 }
 var scene = [3]sphere{sphere1,sphere2,sphere3}
+
 func main() {
+	
+	
+	
+	
 	rl.InitWindow(1920, 1080, "raylib [core] example - basic window")
 	defer rl.CloseWindow()
 	rl.SetTargetFPS(60)
 
-	origin := {0, 0, 0}
+	origin := [3]int{0, 0, 0}
 	
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
@@ -58,11 +69,28 @@ func main() {
 	}
 }
 func CanvasToViewPort(x int, y int){
-	return {x,y,2}
+	return [3]float32{x,y,2}
 }
-func  IntersectRaySphere(O []int, D []int, shape sphere)
+func  IntersectRaySphere(O []int, D []int, shape sphere){
+	r := sphere.radius
+	CO := O - sphere.center
+	//dot product
+	// SUM(0i*Di+Oj*Dj)
+	a := (D[0]*D[0] + D[1]* D[1])
+	b := 2* (CO[0]*D[0] + CO[1]*D[1])
+	c := (CO[0]*CO[0] + CO[1]*CO[1]) - r*r
+
+	disc = b * b - 4*a*c 
+	if disc < 0 {
+		return 99999999,99999999
+	}
+	t1 = (-1*b + math.sqrt(disc)) / (2*a)
+	t2 = (-1*b - math.sqrt(disc)) / (2*a)
+	return t1,t2
+
+}
 func TraceRay(O []int, D []int, t_min int, t_max int){
-	closest_t = 9999999
+	closest_t = 99999999
 	closest_sphere = nil 
 	for sphere := range scene{
 		t1,t2 = IntersectRaySphere(O, D, sphere)
