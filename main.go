@@ -13,40 +13,14 @@ type sphere struct {
 	center [3]float32
 }
 
-/*
-O = (0, 0, 0)
-for x = -Cw/2 to Cw/2 {
-    for y = -Ch/2 to Ch/2 {
-        D = CanvasToViewport(x, y)
-        color = TraceRay(O, D, 1, inf)
-        canvas.PutPixel(x, y, color)
-    }
-}
-*/
-sphere1 := sphere {
-	radius : 1,
-	color : {255,0,0}, //
-	center : {0, -1, 3}, //
-}
-
- sphere2 := sphere {
-	radius : 1 ,
-	color : {0,255,0},//
-	center : {-2, 0, 4},//
- }
-	
-
-sphere3 := sphere {
-	radius : 1 ,
-	color : {0,0,255},//
-	center : {2,0,4},//
-}
-var scene = [3]sphere{sphere1,sphere2,sphere3}
 
 func main() {
-	
-	
-	
+
+	var sphere1 = sphere{1,{255,0,0},{0,-1,3}}
+	var sphere2 = sphere{1,{0,255,0},{-2,0,4}}
+	var sphere3 = sphere{1,{0,0,255},{2,0,4}}
+
+	var scene = [3]sphere{sphere1,sphere2,sphere3}
 	
 	rl.InitWindow(1920, 1080, "raylib [core] example - basic window")
 	defer rl.CloseWindow()
@@ -72,8 +46,8 @@ func CanvasToViewPort(x int, y int){
 	return [3]float32{x,y,2}
 }
 func  IntersectRaySphere(O []int, D []int, shape sphere){
-	r := sphere.radius
-	CO := O - sphere.center
+	r := shape.radius
+	CO := O - shape.center
 	//dot product
 	// SUM(0i*Di+Oj*Dj)
 	a := (D[0]*D[0] + D[1]* D[1])
