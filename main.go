@@ -58,10 +58,10 @@ func CanvasToViewPort(x int, y int)[]float32{
 	return []float32{float32(x),float32(y),2}
 }
 
-//subtract function
-//dot product function
+
 func  IntersectRaySphere(O []float32, D []float32, shape sphere){
 	r := shape.radius
+
 	a := (D[0]*D[0] + D[1]* D[1])
 	b := 2* (CO[0]*D[0] + CO[1]*D[1])
 	c := (CO[0]*CO[0] + CO[1]*CO[1]) - r*r
@@ -75,6 +75,15 @@ func  IntersectRaySphere(O []float32, D []float32, shape sphere){
 	return t1,t2
 
 }
+
+func vec_subtract(vec1 [3]float32, vec2 [3]float32)[3]float32{
+	return [3]float32{(vec1[0]-vec2[0],vec1[1]-vec2[1],vec1[2]-vec2[2])}
+}
+
+func vec_dotproduct(vec1 [3]float32, vec2 [3]float32)float32{
+	return (vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2])
+}
+
 func TraceRay(O []float32, D []float32, t_min int, t_max int, scene []sphere)rl.color{
 	closest_t = 99999999
 	closest_sphere = nil 
