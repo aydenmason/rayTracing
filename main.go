@@ -16,11 +16,23 @@ type sphere struct {
 
 func main() {
 
-	var sphere1 = sphere{1,{255,0,0},{0,-1,3}}
-	var sphere2 = sphere{1,{0,255,0},{-2,0,4}}
-	var sphere3 = sphere{1,{0,0,255},{2,0,4}}
+	var sphere1 = new(sphere)
+	sphere1.radius = 1
+	sphere1.color = [3]uint8{255,0,0}
+	sphere1.center = [3]float32{0,-1,3}
 
-	var scene = [3]sphere{sphere1,sphere2,sphere3}
+	var sphere2 = new(sphere)
+	sphere2.radius = 1
+	sphere2.color = [3]uint8{0,255,0}
+	sphere2.center = [3]float32{-2,0,4}
+	
+	var sphere3 = new(sphere)
+	sphere3.radius = 1
+	sphere3.color = [3]uint8{0,0,255}
+	sphere3.center = [3]float32{2,-0,4}
+
+
+	var scene = []sphere{*sphere1,*sphere2,*sphere3}
 	
 	rl.InitWindow(1920, 1080, "raylib [core] example - basic window")
 	defer rl.CloseWindow()
@@ -34,7 +46,7 @@ func main() {
 		for x := -960; x < 960; x++{
 			for y := -540 ; y < 540; y++{
 				D := CanvasToViewPort(x, y)
-				color := TraceRay(origin, D, 1, 9999999)
+				color := TraceRay(origin, D, 1, 9999999, scene)
 			}
 		}
 		//draw_triangle(0,0,0,50,50,50)
@@ -63,7 +75,7 @@ func  IntersectRaySphere(O []int, D []int, shape sphere){
 	return t1,t2
 
 }
-func TraceRay(O []int, D []int, t_min int, t_max int){
+func TraceRay(O []int, D []int, t_min int, t_max int, scene []sphere){
 	closest_t = 99999999
 	closest_sphere = nil 
 	for sphere := range scene{
