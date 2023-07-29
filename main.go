@@ -38,7 +38,7 @@ func main() {
 	defer rl.CloseWindow()
 	rl.SetTargetFPS(60)
 
-	origin := [3]int{0, 0, 0}
+	origin := []float32{0, 0, 0}
 	
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
@@ -54,28 +54,28 @@ func main() {
 		rl.EndDrawing()
 	}
 }
-func CanvasToViewPort(x int, y int){
-	return [3]float32{x,y,2}
+func CanvasToViewPort(x int, y int)[]float32{
+	return []float32{float32(x),float32(y),2}
 }
-func  IntersectRaySphere(O []int, D []int, shape sphere){
+
+//subtract function
+//dot product function
+func  IntersectRaySphere(O []float32, D []float32, shape sphere){
 	r := shape.radius
-	CO := O - shape.center
-	//dot product
-	// SUM(0i*Di+Oj*Dj)
 	a := (D[0]*D[0] + D[1]* D[1])
 	b := 2* (CO[0]*D[0] + CO[1]*D[1])
 	c := (CO[0]*CO[0] + CO[1]*CO[1]) - r*r
 
-	disc = b * b - 4*a*c 
+	disc := b * b - 4*a*c 
 	if disc < 0 {
-		return 99999999,99999999
+		return []float32{99999999,99999999}
 	}
-	t1 = (-1*b + math.sqrt(disc)) / (2*a)
-	t2 = (-1*b - math.sqrt(disc)) / (2*a)
+	t1 := (-1*b + math.sqrt(disc)) / (2*a)
+	t2 := (-1*b - math.sqrt(disc)) / (2*a)
 	return t1,t2
 
 }
-func TraceRay(O []int, D []int, t_min int, t_max int, scene []sphere){
+func TraceRay(O []float32, D []float32, t_min int, t_max int, scene []sphere)rl.color{
 	closest_t = 99999999
 	closest_sphere = nil 
 	for sphere := range scene{
