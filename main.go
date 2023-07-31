@@ -9,7 +9,7 @@ var red = []uint32{255,0,0,255}
 
 type sphere struct { 
 	radius float32
-	color [4]rl.Color
+	color rl.Color
 	center [3]float32
 }
 
@@ -27,7 +27,7 @@ func main() {
 	
 	var sphere3 = new(sphere)
 	sphere3.radius = 1
-	sphere3.color = [4]rl.Color{0,0,255,255}
+	sphere3.color = []rl.Color{0,0,255,255}
 	sphere3.center = [3]float32{2,-0,4}
 
 
