@@ -9,26 +9,25 @@ var red = []uint32{255,0,0,255}
 
 type sphere struct { 
 	radius float32
-	color [4]uint8
+	color [4]rl.Color
 	center [3]float32
 }
-
 
 func main() {
 
 	var sphere1 = new(sphere)
 	sphere1.radius = 1
-	sphere1.color = [4]uint8{255,0,0,255}
+	sphere1.color = [4]rl.Color{255,0,0,255}
 	sphere1.center = [3]float32{0,-1,3}
 
 	var sphere2 = new(sphere)
 	sphere2.radius = 1
-	sphere2.color = [4]uint8{0,255,0,255}
+	sphere2.color = [4]rl.Color{0,255,0,255}
 	sphere2.center = [3]float32{-2,0,4}
 	
 	var sphere3 = new(sphere)
 	sphere3.radius = 1
-	sphere3.color = [4]uint8{0,0,255,255}
+	sphere3.color = [4]rl.Color{0,0,255,255}
 	sphere3.center = [3]float32{2,-0,4}
 
 
@@ -47,7 +46,7 @@ func main() {
 			for y := -540 ; y < 540; y++{
 				D := CanvasToViewPort(x, y)
 				color := TraceRay(origin, D, 1, 9999999, scene)
-				rl.DrawPixel(int32(x),int32(y), rl.color.RGBA(color))
+				rl.DrawPixel(int32(x),int32(y), rl.Color(color))
 			}
 		}
 		//draw_triangle(0,0,0,50,50,50)
@@ -58,7 +57,6 @@ func main() {
 func CanvasToViewPort(x int, y int)[3]float32{
 	return [3]float32{float32(x),float32(y),2}
 }
-
 
 func  IntersectRaySphere(O [3]float32, D [3]float32, shape sphere)(float32,float32){
 	r := shape.radius
@@ -85,10 +83,10 @@ func vec_dotproduct(vec1 [3]float32, vec2 [3]float32)float32{
 	return (vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2])
 }
 
-func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []sphere)[4]uint8{
+func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []sphere)[4]int32{
 	var closest_t float32 = 99999999
 	var closest_sphere = new(sphere)
-	closest_sphere.color = [4]uint8{255,255,255,255}
+	closest_sphere.color = [4]rl.Color{255,255,255,255}
 	for i:=0; i < len(scene); i ++{
 		t1,t2 := IntersectRaySphere(O, D, scene[i])
 
