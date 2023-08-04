@@ -30,6 +30,8 @@ func main() {
 	sphere3.color = rl.Color{0,0,255,255} //
 	sphere3.center = [3]float32{2,-0,4}
 
+	//var viewport_size = 1
+	//var projection_plane_z = 1
 
 	var scene = []sphere{*sphere1,*sphere2,*sphere3}
 	
@@ -38,7 +40,9 @@ func main() {
 	rl.SetTargetFPS(60)
 
 	origin := [3]float32{0, 0, 0}
-	//i think im missing something here for the projection plane...
+	//i think im missing something here for the projection plane... i was fixed it lol.
+	//projection plane_z is = 1 but im still not really sure why (i just have it hard coded in CanvasToViewport)
+
 	//things should be getting graphed on the screen
 	//some math is wrong for my converesions across coordinate systems
 	for !rl.WindowShouldClose() {
@@ -57,7 +61,7 @@ func main() {
 	}
 }
 func CanvasToViewPort(x int, y int)[3]float32{
-	return [3]float32{float32(x)*float32(1378)/float32(1378),float32(y)*float32(878)/float32(878),5}
+	return [3]float32{float32(x)*float32(1)/float32(1352),float32(y)*float32(1)/float32(878),1}
 }
 
 func  IntersectRaySphere(O [3]float32, D [3]float32, shape sphere)(float32,float32){
@@ -91,6 +95,8 @@ func vec_dotproduct(vec1 [3]float32, vec2 [3]float32)float32{
 }
 
 func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []sphere)rl.Color{
+	//something is fucked up here with the logic for over writing the closest sphere. 
+	// hard 
 	var closest_t float32 = 99999999
 	var closest_sphere = new(sphere)
 	closest_sphere.color = rl.Color{255,255,0,255}
@@ -99,16 +105,18 @@ func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []
 
 	for i:=0; i < len(scene); i++{
 		t1,t2 := IntersectRaySphere(O, D, scene[i])
-
-		if (t1 <= t_max && t1 >= t_min) && t1 < closest_t{
+		if t1 < t_max && t1 > t_min && t1 < closest_t{
 			closest_t = t1
 			closest_sphere = &scene[i]
 		}
-		if (t2 <= t_max && t2 >= t_min) && t2 < closest_t{
+		if t2 < t_max && t2 > t_min && t2 < closest_t{
 			closest_t = t2 
 			closest_sphere = &scene[i] 
 		}
 	}
+	
+
+
 
 	return closest_sphere.color	
 }
