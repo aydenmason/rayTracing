@@ -68,15 +68,15 @@ func  IntersectRaySphere(O [3]float32, D [3]float32, shape sphere)(float32,float
 	//TODO, refactor so we  use /vec_dotproduct, 
 	//TODO stop using implicit typing!
 	r := shape.radius
-	CO := vec_subtract(shape.center, O)
+	CO := vec_subtract(O, shape.center)
 	//a := (D[0]*D[0] + D[1]* D[1]) 
 	a := vec_dotproduct(D, D)
 	//b := 2* (CO[0]*D[0] + CO[1]*D[1])
 	b := 2 * vec_dotproduct(CO, D)
 	//c := (CO[0]*CO[0] + CO[1]*CO[1]) - r*r
-	c :=  (vec_dotproduct(CO, CO) - r * r)
+	c := vec_dotproduct(CO, CO) - (r * r)
 
-	disc := b * b - 4 * a* c 
+	disc := (b * b) - (4 * a* c)
 	if disc < 0 {
 		return 99999999,99999999
 	}
@@ -98,25 +98,27 @@ func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []
 	//something is fucked up here with the logic for over writing the closest sphere. 
 	// hard 
 	var closest_t float32 = 99999999
-	var closest_sphere = new(sphere)
-	closest_sphere.color = rl.Color{255,255,0,255}
-	closest_sphere.center = [3]float32{-2,0,4}
-	closest_sphere.radius = 1
+	var closest_sphere sphere
+	closest_sphere.color = rl.Color{25,25,25,25}
+	//closest_sphere.color = rl.Color{255,255,0,255}
+	//closest_sphere.center = [3]float32{-2,0,4}
+	//closest_sphere.radius = 1
 
-	for i:=0; i < len(scene); i++{
+	for i := 0; i < len(scene); i++{
 		t1,t2 := IntersectRaySphere(O, D, scene[i])
 		if t1 < t_max && t1 > t_min && t1 < closest_t{
 			closest_t = t1
-			closest_sphere = &scene[i]
+			closest_sphere = scene[i]
 		}
 		if t2 < t_max && t2 > t_min && t2 < closest_t{
 			closest_t = t2 
-			closest_sphere = &scene[i] 
+			closest_sphere = scene[i] 
 		}
 	}
+
+	if cloeset_sphere.color == r1.Color{25,25,25,25}{
+		return r1.Color{255,255,255,255}
+	}
 	
-
-
-
 	return closest_sphere.color	
 }
