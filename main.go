@@ -106,7 +106,7 @@ func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []
 
 	for i := 0; i < len(scene); i++{
 		t1,t2 := IntersectRaySphere(O, D, scene[i])
-		if t1 < t_max && t1 > t_min && t1 < closest_t{
+		if t1 < t_max && t1 > t_min && t1 < closest_t{x
 			closest_t = t1
 			closest_sphere = scene[i]
 		}
@@ -116,9 +116,7 @@ func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []
 		}
 	}
 
-	if cloeset_sphere.color == r1.Color{25,25,25,25}{
-		return r1.Color{255,255,255,255}
-	}
+	if cloeset_sphere.color == r1.Color{25,25,25,25}
 	
 	return closest_sphere.color	
 }
