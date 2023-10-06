@@ -21,8 +21,7 @@ type sphere struct {
 
 func main() {
 
-	//should probably make better comments 
-	//make 3 spheres for testing
+	
 	var sphere1 = new(sphere)
 	sphere1.radius = .5
 	sphere1.color = rl.Color{255,0,0,255} //
@@ -64,7 +63,7 @@ func CanvasToViewPort(x int, y int)[3]float32{
 }
 
 func  IntersectRaySphere(O [3]float32, D [3]float32, shape sphere)(float32,float32){
-	//TODO stop using implicit typing!
+	
 	r := shape.radius
 	CO := vec_subtract(O, shape.center)
 	a := vec_dotproduct(D, D)
@@ -91,7 +90,7 @@ func vec_dotproduct(vec1 [3]float32, vec2 [3]float32)float32{
 }
 
 
-//this function is fucked
+
 func TraceRay(O [3]float32, D [3]float32, t_min float32, t_max float32, scene []sphere)rl.Color{
 	var closest_t float32 = 999999999
 	var closest_sphere = new(sphere)
